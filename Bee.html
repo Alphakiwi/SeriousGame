@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Serious Game </title>
+  </head>
+  <body>
+
+    <h1 id ="H1">
+      Compteur = 0
+    </h1>
+
+    <div style='display:none;'>
+      <img id='bee_up'  src='bee_up.jpg'>
+    </div>
+    <div style='display:none;'>
+      <img id='bee_right'  src='bee_right.jpg'>
+    </div>
+    <div style='display:none;'>
+      <img id='bee_left'  src='bee_left.jpg'>
+    </div>
+    <div style='display:none;'>
+      <img id='bee_down'  src='bee_down.jpg'>
+    </div>
+    <div style='display:none;'>
+      <img id='egg'  src='egg.png'>
+    </div>
+
+<canvas id = myCanvas height="500" width="800" style="border:solid">
+</canvas>
+
+
+    <script>
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      var height="500";
+      var width="800";
+      var compteur = 0;
+      var x = 400;
+      var y = 250;
+      var n = 0;
+      var imageBee = document.getElementById('bee_up');
+      var eat = false;
+
+
+      function drawBee(x,y, imageBee){
+        ctx.drawImage(imageBee, x-40, y-40, 80, 80);
+      }
+
+
+
+      var Egg= {
+      x,
+      y,
+      appear : false,
+      notClear : true,
+      drawEgg : function() {
+        if (this.notClear == true){
+          var image = document.getElementById('egg');
+          ctx.drawImage(image, this.x, this.y, 25, 25);
+        }
+      },
+      clearEgg : function() {
+        if (this.notClear == true){
+      ctx.clearRect(this.x-5,this.y-5,10,10);
+      this.notClear = false;
+      compteur += 1;
+      document.getElementById("H1").innerHTML =  "Compteur = " + compteur;
+    }
+    }
+  }
+
+
+  var Bee = {x: 1000, y: 1000, appear : true}
+
+
+  var tableEgg = [];
+  var bee = Object.create(Bee);
+
+  for (var i=0;i<30;i++){
+  tableEgg.push(Object.create(Egg));
+  }
+
+
+      function clearAll(e){
+        ctx.clearRect(0,0,800,500);
+      }
+
+
+
+      var direction = 1 + Math.floor(4 * Math.random());
+
+      document.addEventListener("keydown", deplaceCircle);
+
+      function deplaceCircle(e){
+
+        if (e.key=="ArrowDown"){
+      console.log('La touche "bas" a été pressée');
+      direction = 2;
+      imageBee = document.getElementById('bee_down');
+
+    }
+
+    if (e.key=="ArrowUp"){
+    console.log('La touche "haut" a été pressée');
+    direction = 4;
+    imageBee = document.getElementById('bee_up');
+
+  }
+
+  if (e.key=="ArrowRight"){
+    console.log('La touche "droite" a été pressée');
+    direction = 1;
+    imageBee = document.getElementById('bee_right');
+
+
+  }
+
+  if (e.key=="ArrowLeft"){
+    console.log('La touche "gauche" a été pressée');
+    direction = 3;
+    imageBee = document.getElementById('bee_left');
+
+
+  }
+
+  if (e.key=="Enter"){
+    console.log('La touche "Entré" a été pressée');
+    if(! eat){
+      appearEgg();
+    }
+  }
+
+          ctx.beginPath();
+          ctx.fillStyle="#000000";
+          ctx.fillRect(a1, a2, a3, a4);
+          ctx.fill();
+          ctx.stroke();
+
+      }
+
+
+      function deplaceContinu(e){
+
+        clearAll();
+        drawBee(x,y, imageBee);
+
+
+        for (var i=0;i<30;i++){
+          if (tableEgg[i].appear){
+        tableEgg[i].drawEgg(tableEgg[i].x,tableEgg[i].y);
+        }
+
+    }
+
+
+        switch(direction) {
+            case 1:
+            x+=3;
+                break;
+            case 2:
+            y+=3;
+                break;
+            case 3:
+            x-=3;
+                break;
+            case 4:
+            y-=3;
+                break;
+            default:
+            x+=2;
+          }
+
+          for (var i=0;i<30;i++){
+
+            var cotedroit = x+40 ;
+            var cotegauche = x-40 ;
+            var cotehaut = y-40 ;
+            var cotebas = y+40 ;
+
+            var cotedroitEgg = tableEgg[i].x+10;
+            var cotegaucheEgg = tableEgg[i].x-10;
+            var cotehautEgg = tableEgg[i].y-10;
+            var cotebasEgg = tableEgg[i].y+10;
+
+
+            if (cotedroitEgg<=cotedroit && cotegaucheEgg>=cotegauche && cotehautEgg>=cotehaut && cotebasEgg<=cotebas ){
+                if (tableEgg[i].appear && eat){
+                  tableEgg[i].clearEgg(tableEgg[i].x,tableEgg[i].y);
+                }
+            }
+
+            if (x<40){
+              x+=3;
+            } else if (y<40 ){
+              y+=3;
+            } else if (x > width-40){
+              x-=3;
+            } else if (y > height-40){
+              y-=3;
+            }
+
+          }
+      }
+
+      intervalDisc = setInterval(deplaceContinu,20);
+
+      function appearEgg(e){
+        tableEgg[n].x = x
+        tableEgg[n].y = y
+        tableEgg[n].drawEgg(tableEgg[n].x,tableEgg[n].y);
+        tableEgg[n].appear = true;
+        n+=1;
+      }
+
+
+      setTimeout(Eat,15000);
+
+        function Eat(e){
+          alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
+          eat = true;
+        }
+
+    </script>
+
+  </body>
+</html>
