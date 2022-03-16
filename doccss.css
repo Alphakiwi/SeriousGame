@@ -5,7 +5,7 @@ button {
 }
 button:focus {
 	background-color:red;
-    border: none;
+  border: none;
 }
 
 .boutons{
@@ -18,11 +18,21 @@ button:focus {
 	margin-left:auto;
 
 }
-	
+
+.canva{
+	background-image:url("alvéoles.jpg");
+
+}
+
 body{
 	text-align:center;
 	background-image:url("Fond_accueil.png.png");
-} 
+}
+
+table{
+  margin: auto;
+  text-align:center;
+}
 
 h1{
 	font-size:3.5rem;
