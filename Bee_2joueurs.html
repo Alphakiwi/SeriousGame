@@ -12,7 +12,7 @@
     <label for="name2">Nom deuxième fourmi</label>
     <input type="text" id="name2" name="name2"><br><br>
     <label for="pretendant">Nombre de prétendant de la reine</label>
-    <input type="number" id="pretendant" name="pretendant" min="1" max="10"><br><br>
+    <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
 
     <style type="text/css">
       .container {
@@ -158,9 +158,9 @@
   var nb_oeuf1 = 0;
   var nb_oeuf2 = 0;
   var auPifQueen = 5;
+  var pointOeufQueen = 0;
+  var pointOeufOther = 0;
 
-
-  document.getElementById("genetique").innerHTML = document.getElementById("pretendant").value + "%";
 
 
   function drawBee(xbee, ybee, imageBee) {
@@ -186,16 +186,20 @@
         if (nb_bee == 1){
           if(this.belong_to=="1"){
             compteur -= 2;
-          }else{
+          }else if (this.belong_to== "2"){
             compteur += 1;
+          }else{
+            compteur -= 1;
           }
 
           document.getElementById("H1").innerHTML = "Score 1 = " + compteur;
         }else{
           if(this.belong_to=="2"){
             compteur2 -= 2;
-          }else{
+          }else if(this.belong_to== "1"){
             compteur2 += 1;
+          }else{
+            compteur2 -= 1;
           }
           document.getElementById("H1bis").innerHTML = "Score 2 = " + compteur2;
         }
@@ -319,6 +323,53 @@
 
   function deplaceContinu(e) {
 
+
+    percentage = "?"
+    if (parseInt(document.getElementById("pretendant").value) < 11){
+      switch (parseInt(document.getElementById("pretendant").value)) {
+        case 1:
+          percentage =  37.5;
+          break;
+        case 2:
+          percentage =  25;
+          break;
+        case 3:
+          percentage =  20;
+          break;
+        case 4:
+          percentage =  18;
+          break;
+        case 5:
+          percentage =  16.5;
+          break;
+        case 6:
+          percentage =  16;
+          break;
+        case 7:
+          percentage =  15.5;
+          break;
+        case 8:
+          percentage =  15;
+          break;
+        case 9:
+          percentage =  14.5;
+          break;
+        case 10:
+          percentage =  14;
+          break;
+      }
+    }else{
+      percentage = 14 + 1 - parseFloat(document.getElementById("pretendant").value/10)
+    }
+
+    if (percentage<12.5){
+      percentage = 12.5
+    }
+
+
+
+    document.getElementById("genetique").innerHTML = percentage.toString() + "%" ;
+
     clearAll();
     drawBee(x, y, imageBee1);
     drawBee(x2, y2, imageBee2);
@@ -334,15 +385,19 @@
     switch (auPifQueen) {
       case 1:
         xQueen += 3;
+        imageQueen = document.getElementById('queen_right');
         break;
       case 2:
         yQueen += 3;
+        imageQueen = document.getElementById('queen_down');
         break;
       case 3:
         xQueen -= 3;
+        imageQueen = document.getElementById('queen_left');
         break;
       case 4:
         yQueen -= 3;
+        imageQueen = document.getElementById('queen_up');
         break;
       default:
         xQueen += 0;
@@ -434,6 +489,16 @@
         y2 -= 3;
       }
 
+      if (xQueen < 40) {
+        xQueen += 3;
+      } else if (yQueen < 40) {
+        yQueen += 3;
+      } else if (xQueen > width - 40) {
+        xQueen -= 3;
+      } else if (yQueen > height - 40) {
+        yQueen -= 3;
+      }
+
     }
   }
 
@@ -451,9 +516,17 @@
 
   setTimeout(Eat, 15000);
 
+  for (var i = 0; i < oeufs_max; i++) {
+    setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+  }
+
   function Eat(e) {
     alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
     eat = true;
+  }
+
+  function EggQueen(e) {
+    appearEgg(xQueen, yQueen, belong_to="Queen");
   }
 
 </script>
