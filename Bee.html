@@ -11,16 +11,9 @@
     <input type="number" id="pretendant" name="pretendant" min="1" max="10"><br><br>
 
     <style type="text/css">
-      .container {
+      .canva {
         display: flex;
-      }
 
-      .col1 {
-        width: 70%;
-      }
-
-      .col2 {
-        width: 60%;
       }
     </style>
   </form>
@@ -43,17 +36,10 @@
   </table>
 
 </head>
-<section class="container">
-  <section class="col1">
-    <h1 id="H1">
-      Compteur = 0
-    </h1>
-  </section>
-  <section class="col2">
-    <h1 id="regles">
-      Regles
-    </h1>
-  </section>
+<section>
+  <h1 id="H1">
+    Compteur = 0
+  </h1>
 </section>
 
 <div style='display:none;'>
@@ -73,248 +59,267 @@
 </div>
 
 
-<section class="container">
-  <section class="col1">
-    <canvas id=myCanvas height="500" width="800" style="border:solid">
-    </canvas>
-  </section>
-  <section class="col2">
-    <h1 id="explication">
-      <p>les ouvrières (filles de la reine) ne laissent en vie que les œufs qui ont un assez haut potentiel génétique
-        en commun. <br /><br /> voudraient donc que leur propre enfant (50% de génétique) survivent et donc elles ne
-        mangent
-        jamais leur propre enfant.<br /><br />
-        Les oeufs de la reine ont 25% de génétique en commun avec toutes les ouvrières.<br />
-      </p>
 
-      <p>Si la reine ne s'accouple avec pas avec assez de mâles différents, elles sont globalement toutes sœurs.
-        Elles ont donc tous les gènes de leur père (qui est haploïde) et la moitié de leur mère la reine.<br /><br />
-        Les soeurs ont donc 75% de chromosomes en commun et donc 37.5% en commun avec les enfants de leur
-        sœurs.<br /><br />
+<section class="canva">
+  <canvas id=myCanvas height="500" width="800" style="border:solid">
+  </canvas>
 
-        Dans ce cas comme 37.5% > 25% les ouvrières vont manger les œufs de leur propre reine !<br />
-      </p>
-
-      <p>Comme la reine veut pas que ses œufs soit manger elle va donc avoir des relations avec beaucoup de mâles
-        comme
-        ça les ouvrières ne sont plus soeurs mais demi-soeurs entre elles.<br /><br />
-        Elles n'ont donc plus rien en commun du côté de leur père est seulement 50% chacune avec leur
-        mère.<br /><br />
-        Les demi soeurs n'ont donc que 25 % en commun ce qui fait qu'une ouvrière n'a que 12.5% en commun avec un
-        enfant
-        de la demie-soeur.<br /><br />
-
-        Comme 12.5%
-        < 25% les ouvrières se mangent œufs les une des autres et laisse ceux de la reine tranquille !<br />
-      </p>
-
-      <p>Conclusion : Plus la reine a de prétendant plus la proximité génétique entre les ouvrières et les enfants des
-        autre ouvrières diminuent en passant de 37.5% vers 12.5% ! A Partir de 5 prétendants ce nombre passe en
-        dessous
-        de 0.25% (qui est la proximité génétique entre ouvrières et les oeufs de la reine) et la reine ne se fait plus
-        manger ses œufs !
-      </p>
-
-    </h1>
-  </section>
-</section>
-
-<script>
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-  var height = "500";
-  var width = "800";
-  var compteur = 0;
-  var x = 400;
-  var y = 250;
-  var n = 0;
-  var imageBee = document.getElementById('bee_up');
-  var eat = false;
-  var oeufs_max = 0;
-  var nb_oe = 0;
+  <script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var height = "500";
+    var width = "800";
+    var compteur = 0;
+    var x = 400;
+    var y = 250;
+    var n = 0;
+    var imageBee = document.getElementById('bee_up');
+    var eat = false;
+    var oeufs_max = 0;
+    var nb_oe = 0;
 
 
-  document.getElementById("genetique").innerHTML = document.getElementById("pretendant").value + "%";
+    document.getElementById("genetique").innerHTML = document.getElementById("pretendant").value + "%";
 
 
-  function drawBee(x, y, imageBee) {
-    ctx.drawImage(imageBee, x - 40, y - 40, 80, 80);
-  }
-
-  var Egg = {
-    x,
-    y,
-    appear: false,
-    notClear: true,
-    drawEgg: function () {
-      if (this.notClear == true) {
-        var image = document.getElementById('egg');
-        ctx.drawImage(image, this.x, this.y, 25, 25);
-      }
-    },
-    clearEgg: function () {
-      if (this.notClear == true) {
-        ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
-        this.notClear = false;
-        compteur -= 2;
-        document.getElementById("H1").innerHTML = "Score = " + compteur;
-      }
-    }
-  }
-
-
-  var Bee = { x: 1000, y: 1000, appear: true }
-
-
-  var tableEgg = [];
-  var bee = Object.create(Bee);
-
-  for (var i = 0; i < 30; i++) {
-    tableEgg.push(Object.create(Egg));
-  }
-
-
-  function clearAll(e) {
-    ctx.clearRect(0, 0, 800, 500);
-  }
-
-
-
-  var direction = 1 + Math.floor(4 * Math.random());
-
-  document.addEventListener("keydown", deplaceCircle);
-
-  function deplaceCircle(e) {
-
-    if (e.key == "ArrowDown") {
-      console.log('La touche "bas" a été pressée');
-      direction = 2;
-      imageBee = document.getElementById('bee_down');
-
+    function drawBee(x, y, imageBee) {
+      ctx.drawImage(imageBee, x - 40, y - 40, 80, 80);
     }
 
-    if (e.key == "ArrowUp") {
-      console.log('La touche "haut" a été pressée');
-      direction = 4;
-      imageBee = document.getElementById('bee_up');
-
-    }
-
-    if (e.key == "ArrowRight") {
-      console.log('La touche "droite" a été pressée');
-      direction = 1;
-      imageBee = document.getElementById('bee_right');
-
-
-    }
-
-    if (e.key == "ArrowLeft") {
-      console.log('La touche "gauche" a été pressée');
-      direction = 3;
-      imageBee = document.getElementById('bee_left');
-
-
-    }
-
-    if (e.key == "Enter") {
-      console.log('La touche "Entré" a été pressée');
-      if (!eat) {
-        appearEgg();
-      }
-    }
-
-    ctx.beginPath();
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(a1, a2, a3, a4);
-    ctx.fill();
-    ctx.stroke();
-
-  }
-
-
-  function deplaceContinu(e) {
-
-    clearAll();
-    drawBee(x, y, imageBee);
-
-
-    for (var i = 0; i < 30; i++) {
-      if (tableEgg[i].appear) {
-        tableEgg[i].drawEgg(tableEgg[i].x, tableEgg[i].y);
-      }
-
-    }
-
-
-    switch (direction) {
-      case 1:
-        x += 3;
-        break;
-      case 2:
-        y += 3;
-        break;
-      case 3:
-        x -= 3;
-        break;
-      case 4:
-        y -= 3;
-        break;
-      default:
-        x += 2;
-    }
-
-    for (var i = 0; i < 30; i++) {
-
-      var cotedroit = x + 40;
-      var cotegauche = x - 40;
-      var cotehaut = y - 40;
-      var cotebas = y + 40;
-
-      var cotedroitEgg = tableEgg[i].x + 10;
-      var cotegaucheEgg = tableEgg[i].x - 10;
-      var cotehautEgg = tableEgg[i].y - 10;
-      var cotebasEgg = tableEgg[i].y + 10;
-
-
-      if (cotedroitEgg <= cotedroit && cotegaucheEgg >= cotegauche && cotehautEgg >= cotehaut && cotebasEgg <= cotebas) {
-        if (tableEgg[i].appear && eat) {
-          tableEgg[i].clearEgg(tableEgg[i].x, tableEgg[i].y);
+    var Egg = {
+      x: 30 + Math.floor(740 * Math.random()),
+      y: 30 + Math.floor(440 * Math.random()),
+      appear: true,
+      notClear: true,
+      drawEgg: function () {
+        if (this.notClear == true) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+          ctx.fillStyle = "blue";
+          ctx.fill();
+          ctx.stroke();
+        }
+      },
+      clearEgg: function () {
+        if (this.notClear == true) {
+          ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
+          this.notClear = false;
+          compteur -= 2;
+          document.getElementById("H1").innerHTML = "Score = " + compteur;
         }
       }
+    }
+    var Egg1 = {
+      x: 30 + Math.floor(740 * Math.random()),
+      y: 30 + Math.floor(440 * Math.random()),
+      appear: true,
+      notClear: true,
+      drawEgg: function () {
+        if (this.notClear == true) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+          ctx.fillStyle = "red";
+          ctx.fill();
+          ctx.stroke();
+        }
+      },
+      clearEgg: function () {
+        if (this.notClear == true) {
+          ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
+          this.notClear = false;
+          if (document.getElementById("pretendant").value > 25) {
+            compteur += 1;
+          }
+          else { compteur -= 2; }
+          document.getElementById("H1").innerHTML = "Score = " + compteur;
+        }
+      }
+    }
+    var Egg2 = {
+      x: 30 + Math.floor(740 * Math.random()),
+      y: 30 + Math.floor(440 * Math.random()),
+      appear: true,
+      notClear: true,
+      drawEgg: function (color) {
+        if (this.notClear == true) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+          ctx.fillStyle = "green";
+          ctx.fill();
+          ctx.stroke();
+        }
+      },
+      clearEgg: function () {
+        if (this.notClear == true) {
+          ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
+          this.notClear = false;
+          if (document.getElementById("pretendant").value > 25) {
+            compteur -= 2;
+          }
+          else { compteur += 1; }
+          document.getElementById("H1").innerHTML = "Score = " + compteur;
+        }
+      }
+    }
 
-      if (x < 40) {
-        x += 3;
-      } else if (y < 40) {
-        y += 3;
-      } else if (x > width - 40) {
-        x -= 3;
-      } else if (y > height - 40) {
-        y -= 3;
+
+    var Bee = { x: 1000, y: 1000, appear: true }
+
+
+    var tableEgg = [];
+    var bee = Object.create(Bee);
+
+    for (var i = 0; i < 3; i++) {
+      tableEgg.push(Object.create(Egg));
+      tableEgg[i].x = 30 + Math.floor(740 * Math.random());
+      tableEgg[i].y = 50 + Math.floor(440 * Math.random());
+    }
+    for (var i = 3; i < 6; i++) {
+      tableEgg.push(Object.create(Egg1));
+      tableEgg[i].x = 30 + Math.floor(740 * Math.random());
+      tableEgg[i].y = 50 + Math.floor(440 * Math.random());
+    }
+    for (var i = 6; i < 9; i++) {
+      tableEgg.push(Object.create(Egg2));
+      tableEgg[i].x = 30 + Math.floor(740 * Math.random());
+      tableEgg[i].y = 50 + Math.floor(440 * Math.random());
+    }
+
+
+    function clearAll(e) {
+      ctx.clearRect(0, 0, 800, 500);
+    }
+
+
+
+    var direction = 1 + Math.floor(4 * Math.random());
+
+    document.addEventListener("keydown", deplaceCircle);
+
+    function deplaceCircle(e) {
+
+      if (e.key == "ArrowDown") {
+        console.log('La touche "bas" a été pressée');
+        direction = 2;
+        imageBee = document.getElementById('bee_down');
+
       }
 
+      if (e.key == "ArrowUp") {
+        console.log('La touche "haut" a été pressée');
+        direction = 4;
+        imageBee = document.getElementById('bee_up');
+
+      }
+
+      if (e.key == "ArrowRight") {
+        console.log('La touche "droite" a été pressée');
+        direction = 1;
+        imageBee = document.getElementById('bee_right');
+
+
+      }
+
+      if (e.key == "ArrowLeft") {
+        console.log('La touche "gauche" a été pressée');
+        direction = 3;
+        imageBee = document.getElementById('bee_left');
+
+
+      }
+
+      ctx.beginPath();
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(a1, a2, a3, a4);
+      ctx.fill();
+      ctx.stroke();
+
     }
-  }
-
-  intervalDisc = setInterval(deplaceContinu, 20);
-
-  function appearEgg(e) {
-    tableEgg[n].x = x
-    tableEgg[n].y = y
-    tableEgg[n].drawEgg(tableEgg[n].x, tableEgg[n].y);
-    tableEgg[n].appear = true;
-    n += 1;
-  }
 
 
-  setTimeout(Eat, 15000);
+    function deplaceContinu(e) {
 
-  function Eat(e) {
-    alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
-    eat = true;
-  }
+      clearAll();
+      drawBee(x, y, imageBee);
 
-</script>
 
-</body>
+      for (var i = 0; i < 9; i++) {
+        if (tableEgg[i].appear) {
+          tableEgg[i].drawEgg(tableEgg[i].x, tableEgg[i].y);
+        }
+
+      }
+
+
+      switch (direction) {
+        case 1:
+          x += 3;
+          break;
+        case 2:
+          y += 3;
+          break;
+        case 3:
+          x -= 3;
+          break;
+        case 4:
+          y -= 3;
+          break;
+        default:
+          x += 2;
+      }
+
+      for (var i = 0; i < 30; i++) {
+
+        var cotedroit = x + 40;
+        var cotegauche = x - 40;
+        var cotehaut = y - 40;
+        var cotebas = y + 40;
+
+        var cotedroitEgg = tableEgg[i].x + 10;
+        var cotegaucheEgg = tableEgg[i].x - 10;
+        var cotehautEgg = tableEgg[i].y - 10;
+        var cotebasEgg = tableEgg[i].y + 10;
+
+
+        if (cotedroitEgg <= cotedroit && cotegaucheEgg >= cotegauche && cotehautEgg >= cotehaut && cotebasEgg <= cotebas) {
+          if (tableEgg[i].appear && eat) {
+            tableEgg[i].clearEgg(tableEgg[i].x, tableEgg[i].y);
+          }
+        }
+
+        if (x < 40) {
+          x += 3;
+        } else if (y < 40) {
+          y += 3;
+        } else if (x > width - 40) {
+          x -= 3;
+        } else if (y > height - 40) {
+          y -= 3;
+        }
+
+      }
+    }
+
+    intervalDisc = setInterval(deplaceContinu, 20);
+
+    function appearEgg(e) {
+      tableEgg[n].x = x
+      tableEgg[n].y = y
+      tableEgg[n].drawEgg(tableEgg[n].x, tableEgg[n].y);
+      tableEgg[n].appear = true;
+      n += 1;
+    }
+
+
+    setTimeout(Eat, 15000);
+
+    function Eat(e) {
+      alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
+      eat = true;
+    }
+
+  </script>
+
+  </body>
 
 </html>
