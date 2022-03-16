@@ -13,6 +13,10 @@
     <label for="pretendant">Nombre d'oeufs pour chaque abeille</label>
     <input type="number" id="nb_egg" name="pretendant" min="3" max="5"><br><br>
 
+    <div>
+       <br><br><input type="button" id="button" value="Jouer"><br><br>
+		</div>
+
     <style type="text/css">
       .canva {
         display: flex;
@@ -64,7 +68,7 @@
 </div>
 
 <div style='display:none;'>
-  <img id='egg' src='oeuf.png'>
+  <img id='egg' src='egg.png'>
 </div>
 
 <div style='display:none;'>
@@ -109,8 +113,21 @@
   var auPifQueen = 5;
   var pointOeufQueen = 0;
   var pointOeufOther = 0;
+  var btn = document.getElementById("button");
 
 
+  btn.addEventListener('click', Play);
+
+
+  function Play(){
+    intervalDisc = setInterval(deplaceContinu, 20);
+
+    setTimeout(Eat, 15000);
+
+    for (var i = 0; i < oeufs_max; i++) {
+      setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+    }
+  }
 
   function drawBee(xbee, ybee, imageBee) {
     ctx.drawImage(imageBee, xbee - 40, ybee - 40, 80, 80);
@@ -461,8 +478,6 @@
     }
   }
 
-  intervalDisc = setInterval(deplaceContinu, 20);
-
   function appearEgg(x, y, belong_to = "1") {
     tableEgg[n].x = x
     tableEgg[n].y = y
@@ -472,12 +487,6 @@
     n += 1;
   }
 
-
-  setTimeout(Eat, 15000);
-
-  for (var i = 0; i < oeufs_max; i++) {
-    setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
-  }
 
   function Eat(e) {
     alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
