@@ -4,13 +4,9 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Serious Game </title>
+  <title>Bee Police</title>
 
   <form action="/action_page.php">
-    <label for="name1">Nom première fourmi</label>
-    <input type="text" id="name1" name="name1"><br><br>
-    <label for="name2">Nom deuxième fourmi</label>
-    <input type="text" id="name2" name="name2"><br><br>
     <label for="pretendant">Nombre de prétendant de la reine</label>
     <input type="number" id="pretendant" name="pretendant" min="1" max="10"><br><br>
 
@@ -31,13 +27,17 @@
 
   <table>
     <tr>
-      <th>propres oeufs</th>
-      <th>oeufs reine</th>
-      <th>oeufs autres ouvrières</th>
+      <th style="color: darkblue;">propres oeufs</th>
+      <th> </th>
+      <th style="color: brown;">oeufs reine</th>
+      <th> </th>
+      <th style="color: darkgreen;">oeufs autres ouvrières</th>
     </tr>
     <tr>
       <td>50 %</td>
+      <td> </td>
       <td>25 %</td>
+      <td> </td>
       <td id="genetique">? % </td>
     </tr>
   </table>
@@ -141,8 +141,6 @@
     ctx.drawImage(imageBee, x - 40, y - 40, 80, 80);
   }
 
-
-
   var Egg = {
     x,
     y,
@@ -158,7 +156,7 @@
       if (this.notClear == true) {
         ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
         this.notClear = false;
-        compteur -= 1;
+        compteur -= 2;
         document.getElementById("H1").innerHTML = "Score = " + compteur;
       }
     }
