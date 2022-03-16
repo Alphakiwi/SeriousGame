@@ -46,7 +46,10 @@
 <section class="container">
   <section class="col1">
     <h1 id="H1">
-      Compteur = 0
+      Score 1 = 0
+    </h1>
+    <h1 id="H1bis">
+      Score 2 = 0
     </h1>
   </section>
   <section class="col2">
@@ -68,8 +71,22 @@
 <div style='display:none;'>
   <img id='bee_down' src='bee_down.jpg'>
 </div>
+
 <div style='display:none;'>
   <img id='egg' src='egg.png'>
+</div>
+
+<div style='display:none;'>
+  <img id='queen_up' src='queen_up.png'>
+</div>
+<div style='display:none;'>
+  <img id='queen_right' src='queen_right.png'>
+</div>
+<div style='display:none;'>
+  <img id='queen_left' src='queen_left.png'>
+</div>
+<div style='display:none;'>
+  <img id='queen_down' src='queen_down.png'>
 </div>
 
 
@@ -125,28 +142,35 @@
   var height = "500";
   var width = "800";
   var compteur = 0;
+  var compteur2 = 0;
   var x = 400;
   var y = 250;
   var x2 = 400;
   var y2 = 250;
+  var xQueen = 400;
+  var yQueen = 250;
   var n = 0;
   var imageBee1 = document.getElementById('bee_up');
   var imageBee2 = document.getElementById('bee_up');
+  var imageQueen = document.getElementById('queen_up');
   var eat = false;
-  var oeufs_max = 0;
-  var nb_oe = 0;
+  var oeufs_max = 3;
+  var nb_oeuf1 = 0;
+  var nb_oeuf2 = 0;
+  var auPifQueen = 5;
 
 
   document.getElementById("genetique").innerHTML = document.getElementById("pretendant").value + "%";
 
 
-  function drawBee(x, y, imageBee) {
-    ctx.drawImage(imageBee, x - 40, y - 40, 80, 80);
+  function drawBee(xbee, ybee, imageBee) {
+    ctx.drawImage(imageBee, xbee - 40, ybee - 40, 80, 80);
   }
 
   var Egg = {
     x,
     y,
+    belong_to: "1",
     appear: false,
     notClear: true,
     drawEgg: function () {
@@ -155,12 +179,26 @@
         ctx.drawImage(image, this.x, this.y, 25, 25);
       }
     },
-    clearEgg: function () {
+    clearEgg: function (nb_bee=1) {
       if (this.notClear == true) {
         ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
         this.notClear = false;
-        compteur -= 1;
-        document.getElementById("H1").innerHTML = "Score = " + compteur;
+        if (nb_bee == 1){
+          if(this.belong_to=="1"){
+            compteur -= 2;
+          }else{
+            compteur += 1;
+          }
+
+          document.getElementById("H1").innerHTML = "Score 1 = " + compteur;
+        }else{
+          if(this.belong_to=="2"){
+            compteur2 -= 2;
+          }else{
+            compteur2 += 1;
+          }
+          document.getElementById("H1bis").innerHTML = "Score 2 = " + compteur2;
+        }
       }
     }
   }
@@ -171,7 +209,12 @@
 
   var tableEgg = [];
   var bee = Object.create(Bee);
+  x += 40;
   var bee2 = Object.create(Bee);
+  x2 -= 40;
+  var beeQueen = Object.create(Bee);
+  yQueen -= 60
+
 
   for (var i = 0; i < 30; i++) {
     tableEgg.push(Object.create(Egg));
@@ -184,59 +227,55 @@
 
 
 
-  var direction = 1;
-  var direction2 = 1;
+  var direction = 5;
+  var direction2 = 5;
 
   document.addEventListener("keydown", deplaceCircle);
 
   function deplaceCircle(e) {
 
+    auPifQueen = 1 + Math.floor(4 * Math.random());
+
     if (e.key == "ArrowDown") {
       console.log('La touche "bas" a été pressée');
       direction = 2;
       imageBee1 = document.getElementById('bee_down');
-
     }
 
     if (e.key == "ArrowUp") {
       console.log('La touche "haut" a été pressée');
       direction = 4;
       imageBee1 = document.getElementById('bee_up');
-
     }
 
     if (e.key == "ArrowRight") {
       console.log('La touche "droite" a été pressée');
       direction = 1;
       imageBee1 = document.getElementById('bee_right');
-
-
     }
 
     if (e.key == "ArrowLeft") {
       console.log('La touche "gauche" a été pressée');
       direction = 3;
       imageBee1 = document.getElementById('bee_left');
-
-
     }
 
 
-    if (e.key == "s") {
+    if (e.key == "s" || e.key == "S") {
       console.log('La touche "bas" a été pressée');
       direction2 = 2;
       imageBee2 = document.getElementById('bee_down');
 
     }
 
-    if (e.key == "z") {
+    if (e.key == "z" || e.key == "Z") {
       console.log('La touche "haut" a été pressée');
       direction2 = 4;
       imageBee2 = document.getElementById('bee_up');
 
     }
 
-    if (e.key == "d") {
+    if (e.key == "d" || e.key == "D") {
       console.log('La touche "droite" a été pressée');
       direction2 = 1;
       imageBee2 = document.getElementById('bee_right');
@@ -244,7 +283,7 @@
 
     }
 
-    if (e.key == "q") {
+    if (e.key == "q" || e.key == "Q") {
       console.log('La touche "gauche" a été pressée');
       direction2 = 3;
       imageBee2 = document.getElementById('bee_left');
@@ -252,10 +291,20 @@
 
     }
 
+
     if (e.key == "Enter") {
+      console.log('La touche "Maj" a été pressée');
+      if (!eat && nb_oeuf1 < oeufs_max) {
+        appearEgg(x, y);
+        nb_oeuf1 += 1
+      }
+    }
+
+    if (e.key == "Shift") {
       console.log('La touche "Entré" a été pressée');
-      if (!eat) {
-        appearEgg();
+      if (!eat && nb_oeuf2 < oeufs_max) {
+        appearEgg(x2, y2, belong_to="2");
+        nb_oeuf2 += 1
       }
     }
 
@@ -273,12 +322,30 @@
     clearAll();
     drawBee(x, y, imageBee1);
     drawBee(x2, y2, imageBee2);
+    drawBee(xQueen, yQueen, imageQueen);
 
     for (var i = 0; i < 30; i++) {
       if (tableEgg[i].appear) {
         tableEgg[i].drawEgg(tableEgg[i].x, tableEgg[i].y);
       }
 
+    }
+
+    switch (auPifQueen) {
+      case 1:
+        xQueen += 3;
+        break;
+      case 2:
+        yQueen += 3;
+        break;
+      case 3:
+        xQueen -= 3;
+        break;
+      case 4:
+        yQueen -= 3;
+        break;
+      default:
+        xQueen += 0;
     }
 
 
@@ -296,7 +363,7 @@
         y -= 3;
         break;
       default:
-        x += 2;
+        x += 0;
     }
 
     switch (direction2) {
@@ -313,7 +380,7 @@
         y2 -= 3;
         break;
       default:
-        x2 += 2;
+        x2 += 0;
     }
 
     for (var i = 0; i < 30; i++) {
@@ -323,6 +390,11 @@
       var cotehaut = y - 40;
       var cotebas = y + 40;
 
+      var cotedroit2 = x2 + 40;
+      var cotegauche2 = x2 - 40;
+      var cotehaut2 = y2 - 40;
+      var cotebas2 = y2 + 40;
+
       var cotedroitEgg = tableEgg[i].x + 10;
       var cotegaucheEgg = tableEgg[i].x - 10;
       var cotehautEgg = tableEgg[i].y - 10;
@@ -331,7 +403,14 @@
 
       if (cotedroitEgg <= cotedroit && cotegaucheEgg >= cotegauche && cotehautEgg >= cotehaut && cotebasEgg <= cotebas) {
         if (tableEgg[i].appear && eat) {
-          tableEgg[i].clearEgg(tableEgg[i].x, tableEgg[i].y);
+          tableEgg[i].clearEgg(1);
+        }
+      }
+
+      if (cotedroitEgg <= cotedroit2 && cotegaucheEgg >= cotegauche2 && cotehautEgg >= cotehaut2 && cotebasEgg <= cotebas2) {
+        if (tableEgg[i].appear && eat) {
+          tableEgg[i].clearEgg(2);
+
         }
       }
 
@@ -345,16 +424,27 @@
         y -= 3;
       }
 
+      if (x2 < 40) {
+        x2 += 3;
+      } else if (y2 < 40) {
+        y2 += 3;
+      } else if (x2 > width - 40) {
+        x2 -= 3;
+      } else if (y2 > height - 40) {
+        y2 -= 3;
+      }
+
     }
   }
 
   intervalDisc = setInterval(deplaceContinu, 20);
 
-  function appearEgg(e) {
+  function appearEgg(x, y, belong_to="1") {
     tableEgg[n].x = x
     tableEgg[n].y = y
     tableEgg[n].drawEgg(tableEgg[n].x, tableEgg[n].y);
     tableEgg[n].appear = true;
+    tableEgg[n].belong_to = belong_to
     n += 1;
   }
 
