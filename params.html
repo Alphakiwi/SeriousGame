@@ -1,0 +1,29 @@
+<! DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="Logo.png">
+        <link rel="stylesheet" href="doccss.css">
+        <title>Jeu d'abeilles</title>
+        <meta name="page d'accueil" content="Accueil Jeu Abeilles" />
+    </head>
+
+    <body>
+        <h1>Egg Hunter</h1>
+        <label for="solo_duo">Voulez-vous jouer en Solo ou en Duo ?</label>
+        <select name="select" id="select">
+            <option value="">--Choisir une option--</option>
+            <option value="Solo">Solo</option>
+            <option value="Duo">Duo</option>
+        </select><br><br>
+        <label for="pretendant">Nombre de prétendant de la reine (1 minimum et 100 maximum)</label>
+        <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
+        <label for="oeufs">Nombre des oeufs par abeille (3 minimum et 5 maximum)</label>
+        <input type="number" id="oeufs" name="oeufs" min="3" max="5"><br><br>
+        <a href="http://www.google.com/">
+            <input class="boutons" type="button" value="Lancer le jeu">
+        </a>
+    </body>
+
+    </html>

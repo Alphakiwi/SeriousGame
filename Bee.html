@@ -8,11 +8,18 @@
 
   <form action="/action_page.php">
     <label for="pretendant">Nombre de prétendant de la reine</label>
-    <input type="number" id="pretendant" name="pretendant" min="1" max="10"><br><br>
+    <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
+    <label for="oeufs">Nombre des oeufs</label>
+    <input type="number" id="oeufs" name="oeufs" min="3" max="5"><br><br>
 
     <style type="text/css">
       .canva {
         display: flex;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 800px;
 
       }
     </style>
@@ -72,7 +79,7 @@
     var compteur = 0;
     var x = 400;
     var y = 250;
-    var n = 0;
+    var n = document.getElementById('oeufs');
     var imageBee = document.getElementById('bee_up');
     var eat = false;
     var oeufs_max = 0;
