@@ -1,0 +1,31 @@
+button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+button:focus {
+    border: none;
+}
+
+.boutons{
+	border-radius:30px;
+	margin-top:3.5rem;
+	padding-left:30;
+	padding-right:30;
+	padding-top:10;
+	padding-bottom:10;
+	margin-left:auto;
+
+}
+	
+body{
+	text-align:center;
+	background-image:url("Fond_accueil.png.png");
+} 
+
+h1{
+	font-size:3.5rem;
+	text-align:center;
+	margin-top: 15rem;
+	color:red;
+}
