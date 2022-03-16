@@ -39,6 +39,11 @@ body{
 	background-image:url("Fond_accueil.png.png");
 }
 
+#H1bis{
+  margin-left: 8rem;
+  margin-right: 7rem;
+}
+
 table{
   margin: auto;
   text-align:center;

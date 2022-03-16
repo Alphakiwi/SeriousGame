@@ -13,9 +13,6 @@
     <label for="pretendant">Nombre d'oeufs pour chaque abeille</label>
     <input type="number" id="nb_egg" name="pretendant" min="3" max="5"><br><br>
 
-    <div>
-       <br><br><input type="button" id="button" value="Jouer"><br><br>
-		</div>
 
     <style type="text/css">
       .canva {
@@ -30,29 +27,47 @@
     </style>
   </form>
 
-  <table>
-    <tr>
-      <th>propres oeufs</th>
-      <th>oeufs reine</th>
-      <th>oeufs autres ouvrières</th>
-    </tr>
-    <tr>
-      <td>50 %</td>
-      <td>25 %</td>
-      <td id="genetique">? % </td>
-    </tr>
-  </table>
 
 </head>
 
+<div>
+   <br><br><input type="button" id="button" value="Jouer"><br><br>
+</div>
+
 <section>
-  <h2 id="H1">
-    Score 1 = 0
+
+  <h2 id="H1bis" style="float: left;">
+    Score abeille se déplaçant <br> avec les touche ZQSD : <br> 0 <br><br> (touche Shift pour pondre)
   </h2>
-  <h2 id="H1bis">
-    Score 2 = 0
-  </h2>
+
 </section>
+
+<div  style="float: left;">
+<table>
+  <tr>
+    <th>Proximité génétique avec les ouvrières</th>
+  </tr>
+  </table>
+  <table>
+  <tr>
+    <th>propres oeufs</th>
+    <th>oeufs reine</th>
+    <th>oeufs autres ouvrières</th>
+  </tr>
+  <tr>
+    <td>50 %</td>
+    <td>25 %</td>
+    <td id="genetique">? % </td>
+  </tr>
+</table>
+</div>
+
+<h2 id="H1">
+  Score abeille se déplaçant <br> avec les flèches directionelles : <br> 0 <br><br> (touche Entré pour pondre)
+</h2> <br><br>
+
+<h2 id="H1time">
+  </h2><br>
 
 <div style='display:none;'>
   <img id='bee_up' src='bee_up.png'>
@@ -110,25 +125,36 @@
   var oeufs_max = document.getElementById("nb_egg").value;
   var nb_oeuf1 = 0;
   var nb_oeuf2 = 0;
-  var auPifQueen = 5;
+  var auPifQueen = 1 + Math.floor(4 * Math.random());;
   var pointOeufQueen = 0;
   var pointOeufOther = 0;
   var play = false;
+  var delai = 15;
   var btn = document.getElementById("button");
+  var time_action = "pondre";
 
+  alert("Renseigner le nombre d'oeufs à pondre et de prétendant qu'aura eu la reine dans le passé.\n\nA partir du moment où vous appuyerai sur le bouton 'Play' avez 15 secondes pour pondre vos oeufs puis 15 secondes pour manger les oeufs qui ont le moins de proximité génétique avec vous. Bonne chance !");
 
   btn.addEventListener('click', Play);
 
 
   function Play(){
-    if (!play){
-      play = true;
-      intervalDisc = setInterval(deplaceContinu, 20);
-      setTimeout(Eat, 15000);
 
-      for (var i = 0; i < oeufs_max; i++) {
-        setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+    if (parseInt(document.getElementById("nb_egg").value) >= 1 && parseInt(document.getElementById("pretendant").value)>=1) {
+      if (!play){
+        play = true;
+        setInterval(deplaceContinu, 20);
+        setInterval(DelaySecond, 1000);
+        setTimeout(Eat, 15000);
+        setTimeout(End, 30000);
+        setInterval("blink(H1time)",500);
+
+        for (var i = 0; i < document.getElementById("nb_egg").value; i++) {
+          setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+        }
       }
+    }else{
+      alert("Renseigner le nombre d'oeufs à pondre et de prétendant qu'aura eu la reine dans le passé.")
     }
   }
 
@@ -161,7 +187,7 @@
             compteur += pointOeufQueen;
           }
 
-          document.getElementById("H1").innerHTML = "Score 1 = " + compteur;
+          document.getElementById("H1").innerHTML = "Score abeille se déplaçant <br> avec les flèches directionelles : <br> " + compteur + " <br><br> (touche Entré pour pondre)";
         } else {
           if (this.belong_to == "2") {
             compteur2 -= 2;
@@ -170,7 +196,7 @@
           } else {
             compteur2 += pointOeufQueen;
           }
-          document.getElementById("H1bis").innerHTML = "Score 2 = " + compteur2;
+          document.getElementById("H1bis").innerHTML = "Score abeille se déplaçant <br> avec les touche ZQSD : <br> "+ compteur2 +" <br><br> (touche Shift pour pondre) ";
         }
       }
     }
@@ -291,6 +317,8 @@
 
 
   function deplaceContinu(e) {
+
+    document.getElementById("H1time").innerHTML = "Temps restant pour "+ time_action +" : " + delai + "s";
 
     oeufs_max = document.getElementById("nb_egg").value;
 
@@ -492,13 +520,80 @@
 
 
   function Eat(e) {
-    alert("Le délais de 15 secondes est dépassé ! Vous allez maintenant pouvoir manger les oeufs !");
     eat = true;
+    delai = 15
+    time_action = "manger des oeufs"
+  }
+
+  function End(e) {
+
+    var texte = "";
+    if (compteur > compteur2){
+      texte = " Bravo, l'abeille se déplaçant avec les flèches directionelles a gagné !"
+    }else if (compteur < compteur2){
+      texte = " Bravo, l'abeille se déplaçant avec se déplaçant avec les touche ZQSD a gagné !"
+    }else if (compteur == compteur2){
+      texte = "Egalité ! Restait-il beaucoup d'oeufs de la reine ?"
+    }
+
+    if (confirm(texte +" Voulez-vous rejouer avec ces même paramètres ?")) {
+      compteur = 0;
+      compteur2 = 0;
+      x = 440;
+      y = 250;
+      x2 = 360;
+      y2 = 250;
+      xQueen = 400;
+      yQueen = 190;
+      n = 0;
+      imageBee1 = document.getElementById('bee_up');
+      imageBee2 = document.getElementById('bee_up');
+      imageQueen = document.getElementById('queen_up');
+      eat = false;
+      oeufs_max = document.getElementById("nb_egg").value;
+      nb_oeuf1 = 0;
+      nb_oeuf2 = 0;
+      auPifQueen = 1 + Math.floor(4 * Math.random());;
+      pointOeufQueen = 0;
+      pointOeufOther = 0;
+      delai = 15;
+      time_action = "pondre";
+      tableEgg = []
+      for (var i = 0; i < 30; i++) {
+        tableEgg.push(Object.create(Egg));
+      }
+      setTimeout(Eat, 15000);
+      setTimeout(End, 30000);
+      for (var i = 0; i < document.getElementById("nb_egg").value; i++) {
+        setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+      }
+      direction = 5;
+      direction2 = 5;
+
+
+      }else{
+        location.reload(true);
+      }
+  }
+
+  function DelaySecond(e) {
+    delai -= 1;
   }
 
   function EggQueen(e) {
     appearEgg(xQueen, yQueen, belong_to = "Queen");
   }
+
+
+function blink(Obj) {
+    if (Obj.style.color != "red"){
+      Obj.style.color = "red";
+    }else{
+      Obj.style.color = "black";
+    }
+  }
+
+
 
 </script>
 
