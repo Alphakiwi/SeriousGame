@@ -113,6 +113,7 @@
   var auPifQueen = 5;
   var pointOeufQueen = 0;
   var pointOeufOther = 0;
+  var play = false;
   var btn = document.getElementById("button");
 
 
@@ -120,12 +121,14 @@
 
 
   function Play(){
-    intervalDisc = setInterval(deplaceContinu, 20);
+    if (!play){
+      play = true;
+      intervalDisc = setInterval(deplaceContinu, 20);
+      setTimeout(Eat, 15000);
 
-    setTimeout(Eat, 15000);
-
-    for (var i = 0; i < oeufs_max; i++) {
-      setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+      for (var i = 0; i < oeufs_max; i++) {
+        setTimeout(EggQueen, 1 + Math.floor(15000 * Math.random()));
+      }
     }
   }
 
