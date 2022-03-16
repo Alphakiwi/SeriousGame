@@ -1,0 +1,129 @@
+<! DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="Logo.png">
+        <title>Règles du jeu</title>
+        <style>
+            button {
+                outline: none;
+            }
+
+            button:focus {
+                border: none;
+            }
+
+            .boutons {
+                opacity: 0.75;
+                border-radius: 30px;
+                margin-top: 3.5rem;
+                padding-left: 40;
+                padding-right: 40;
+                padding-top: 15;
+                padding-bottom: 15;
+                margin-left: auto;
+
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .canva {
+                background-image: url("alvéoles.jpg");
+
+            }
+
+            body {
+                text-align: center;
+                background-image: url("Fond_accueil.png.png");
+            }
+
+            .tableau {
+                border-radius: 30px;
+                margin-top: 0.5rem;
+                padding-left: 100;
+                padding-right: 100;
+                padding-top: 20;
+                padding-bottom: 150;
+                background-color: grey;
+                margin-left: auto;
+                background: rgba(236, 2360, 25, 0.3);
+                /*opacity:0.3;*/
+            }
+
+            h1 {
+
+                font-size: 3.5rem;
+                text-align: center;
+                margin-top: 15rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Règles du jeu<h1>
+                <div class="tableau">
+                    <p>But : Maximiser ses points en mangeant les œufs les plus éloignés génétiquement et en évitant de
+                        manger les autres.<br>
+
+                        Mise en place : Le jeu principal (en dehors du jeu solo), se joue à deux joueurs. Chaque joueur
+                        contrôle une abeille. La première avec les flèches directionnelles et la touche entrée pour
+                        pondre un œuf. La seconde avec les touches QZSD et la touche Maj pour pondre un œuf. La reine
+                        abeille est un PNJ qui pond des œufs, mais n’en mange jamais. <br>
+
+                        L’utilisateur pourra paramétrer les choses suivantes avant de jouer : <br>
+                        Nombre de prétendants de la reine,
+                        Le nombre d’œufs par fourmis,
+                        Temps limite<br>
+
+
+                        Déroulement jeux duo : <br>
+
+                        Dans un premier temps, toutes les abeilles ont le même nombre d'œufs à pondre (déterminé
+                        préalablement, plus il y a d'œufs plus le jeu est difficile) et ne peuvent pas manger
+                        d'œufs.<br>
+
+                        Ensuite, (au bout d’un nombre déterminé de secondes par exemple 15 secondes) les abeilles ne
+                        peuvent plus pondre d'œufs. Elles peuvent alors manger tous les œufs sur lesquels ils passent en
+                        un temps donné.<br>
+
+                        En mangeant des œufs, les abeilles gagnent ou perdent des points en fonction de leur proximité
+                        génétique avec les œufs (qui dépend du nombre de prétendants de la reine). <br>
+
+                        Par conséquent, une abeille perdra toujours des points en mangeant ses propres œufs (proximité
+                        génétique de 50 %). La proximité génétique entre les ouvrières et les œufs de la reine est
+                        toujours de 25 %. En revanche, celle entre les ouvrières et les œufs des autres ouvrières varie
+                        entre 37 % et 12 % selon le nombre de prétendants de la reine (plus elle a de prétendants plus
+                        les abeilles sont des demi-sœurs entre elles et plus des soeurs) :<br>
+                        Si cette dernière est plus grande que la proximité génétique entre les ouvrières et les œufs de
+                        la reine, l’abeille gagne des points en mangeant les œufs de la reine et perd des points en
+                        mangeant ceux des autres ouvrières. <br>
+                        À l’inverse, si cette dernière est encore plus faible que la proximité génétique entre les
+                        ouvrières et les œufs de la reine, l’abeille perd des points en mangeant les œufs de la reine et
+                        perd des points en mangeant ceux des autres ouvrières.<br>
+                        Cela permettra au joueur de déterminer à partir de combien de prétendants le gain et la perte de
+                        points selon les œufs s’inversent.<br>
+
+                        Au bout d’un temps limité (choisi en secondes dans les paramètres), le jeu se termine. L’abeille
+                        qui a le plus de points gagne.<br>
+
+                        Déroulement jeu solo :<br>
+
+                        Le jeu solo a principalement l'intérêt de bien faire comprendre l’importance de la proximité
+                        génétique entre les œufs des ouvrières et les autres œufs. Il peut donc servir un peu de
+                        tutoriel au jeu principal en duo.<br>
+
+                        Le paramétrage du jeu est identique, mais il n’y a qu’une abeille ouvrière sur l’écran avec les
+                        œufs déjà placés. L’abeille n’a donc pas à en pondre. Les différents types d'œufs (les œufs de
+                        l’abeille en question, les œufs de la reine et les œufs des autres ouvrières) ont une couleur
+                        qui les différencie. La couleur peut être désactivée par la suite. Le joueur peut, de ce fait,
+                        bien comprendre le système de point et voir combien il gagne ou perd de point pour chaque type
+                        d'œufs en fonction du nombre de prétendants de la reine.
+
+                    </p>
+                </div>
+    </body>
+
+    </html>
