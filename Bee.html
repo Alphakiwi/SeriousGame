@@ -11,7 +11,10 @@
     <label for="pretendant">Nombre de prétendant de la reine</label>
     <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
     <label for="oeufs">Nombre des oeufs</label>
-    <input type="number" id="oeufs" name="oeufs" min="3" max="5"><br><br>
+    <input type="number" id="nb_egg" name="oeufs" min="3" max="5"><br><br>
+    <div>
+      <br><br><input type="button" id="button" value="Jouer"><br><br>
+    </div>
 
     <style type="text/css">
       .canva {
@@ -81,15 +84,18 @@
   var compteur = 0;
   var x = 400;
   var y = 250;
-  var n = document.getElementById('oeufs');
+  var n = 0;
   var imageBee = document.getElementById('bee_up');
   var eat = true;
-  var oeufs_max = 0;
+  var oeufs_max = 3;
   var nb_oe = 0;
+  var btn = document.getElementById("button");
+  btn.addEventListener('click', Play);
 
-
-  document.getElementById("genetique").innerHTML = document.getElementById("pretendant").value + "%";
-
+  function Play() {
+    oeufs_max = document.getElementById("nb_egg").value;
+    intervalDisc = setInterval(deplaceContinu, 20);
+  }
 
   function drawBee(x, y, imageBee) {
     ctx.drawImage(imageBee, x - 40, y - 40, 80, 80);
@@ -182,17 +188,17 @@
   var tableEgg = [];
   var bee = Object.create(Bee);
 
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < oeufs_max; i++) {
     tableEgg.push(Object.create(Egg));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
   }
-  for (var i = 3; i < 6; i++) {
+  for (var i = oeufs_max; i < 2 * oeufs_max; i++) {
     tableEgg.push(Object.create(Egg1));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
   }
-  for (var i = 6; i < 9; i++) {
+  for (var i = 2 * oeufs_max; i < 3 * oeufs_max; i++) {
     tableEgg.push(Object.create(Egg2));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
@@ -251,6 +257,7 @@
 
 
   function deplaceContinu(e) {
+    oeufs_max = document.getElementById("nb_egg").value;
     percentage = "?"
     if (parseInt(document.getElementById("pretendant").value) < 11) {
       switch (parseInt(document.getElementById("pretendant").value)) {
@@ -299,7 +306,7 @@
     drawBee(x, y, imageBee);
 
 
-    for (var i = 0; i < 9; i++) {
+    for (var i = 0; i < 3 * oeufs_max; i++) {
       if (tableEgg[i].appear) {
         tableEgg[i].drawEgg(tableEgg[i].x, tableEgg[i].y);
       }
@@ -324,7 +331,7 @@
         x += 2;
     }
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 3 * oeufs_max; i++) {
 
       var cotedroit = x + 40;
       var cotegauche = x - 40;
@@ -354,16 +361,6 @@
       }
 
     }
-  }
-
-  intervalDisc = setInterval(deplaceContinu, 20);
-
-  function appearEgg(e) {
-    tableEgg[n].x = x
-    tableEgg[n].y = y
-    tableEgg[n].drawEgg(tableEgg[n].x, tableEgg[n].y);
-    tableEgg[n].appear = true;
-    n += 1;
   }
 
 
