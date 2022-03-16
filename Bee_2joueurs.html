@@ -15,16 +15,14 @@
     <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
 
     <style type="text/css">
-      .container {
+      .canva {
         display: flex;
-      }
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 800px;
 
-      .col1 {
-        width: 70%;
-      }
-
-      .col2 {
-        width: 60%;
       }
     </style>
   </form>
@@ -43,20 +41,14 @@
   </table>
 
 </head>
-<section class="container">
-  <section class="col1">
-    <h1 id="H1">
-      Score 1 = 0
-    </h1>
-    <h1 id="H1bis">
-      Score 2 = 0
-    </h1>
-  </section>
-  <section class="col2">
-    <h1 id="regles">
-      Regles
-    </h1>
-  </section>
+
+<section>
+  <h1 id="H1">
+    Score 1 = 0
+  </h1>
+  <h1 id="H1bis">
+    Score 2 = 0
+  </h1>
 </section>
 
 <div style='display:none;'>
@@ -89,51 +81,9 @@
   <img id='queen_down' src='queen_down.png'>
 </div>
 
-
-<section class="container">
-  <section class="col1">
-    <canvas id=myCanvas height="500" width="800" style="border:solid">
-    </canvas>
-  </section>
-  <section class="col2">
-    <h1 id="explication">
-      <p>les ouvrières (filles de la reine) ne laissent en vie que les œufs qui ont un assez haut potentiel génétique
-        en commun. <br /><br /> voudraient donc que leur propre enfant (50% de génétique) survivent et donc elles ne
-        mangent
-        jamais leur propre enfant.<br /><br />
-        Les oeufs de la reine ont 25% de génétique en commun avec toutes les ouvrières.<br />
-      </p>
-
-      <p>Si la reine ne s'accouple avec pas avec assez de mâles différents, elles sont globalement toutes sœurs.
-        Elles ont donc tous les gènes de leur père (qui est haploïde) et la moitié de leur mère la reine.<br /><br />
-        Les soeurs ont donc 75% de chromosomes en commun et donc 37.5% en commun avec les enfants de leur
-        sœurs.<br /><br />
-
-        Dans ce cas comme 37.5% > 25% les ouvrières vont manger les œufs de leur propre reine !<br />
-      </p>
-
-      <p>Comme la reine veut pas que ses œufs soit manger elle va donc avoir des relations avec beaucoup de mâles
-        comme
-        ça les ouvrières ne sont plus soeurs mais demi-soeurs entre elles.<br /><br />
-        Elles n'ont donc plus rien en commun du côté de leur père est seulement 50% chacune avec leur
-        mère.<br /><br />
-        Les demi soeurs n'ont donc que 25 % en commun ce qui fait qu'une ouvrière n'a que 12.5% en commun avec un
-        enfant
-        de la demie-soeur.<br /><br />
-
-        Comme 12.5%
-        < 25% les ouvrières se mangent œufs les une des autres et laisse ceux de la reine tranquille !<br />
-      </p>
-
-      <p>Conclusion : Plus la reine a de prétendant plus la proximité génétique entre les ouvrières et les enfants des
-        autre ouvrières diminuent en passant de 37.5% vers 12.5% ! A Partir de 5 prétendants ce nombre passe en
-        dessous
-        de 0.25% (qui est la proximité génétique entre ouvrières et les oeufs de la reine) et la reine ne se fait plus
-        manger ses œufs !
-      </p>
-
-    </h1>
-  </section>
+<section class="canva">
+  <canvas id=myCanvas height="500" width="800" style="border:solid">
+  </canvas>
 </section>
 
 <script>
@@ -179,26 +129,26 @@
         ctx.drawImage(image, this.x, this.y, 25, 25);
       }
     },
-    clearEgg: function (nb_bee=1) {
+    clearEgg: function (nb_bee = 1) {
       if (this.notClear == true) {
         ctx.clearRect(this.x - 5, this.y - 5, 10, 10);
         this.notClear = false;
-        if (nb_bee == 1){
-          if(this.belong_to=="1"){
+        if (nb_bee == 1) {
+          if (this.belong_to == "1") {
             compteur -= 2;
-          }else if (this.belong_to== "2"){
+          } else if (this.belong_to == "2") {
             compteur += pointOeufOther;
-          }else{
+          } else {
             compteur += pointOeufQueen;
           }
 
           document.getElementById("H1").innerHTML = "Score 1 = " + compteur;
-        }else{
-          if(this.belong_to=="2"){
+        } else {
+          if (this.belong_to == "2") {
             compteur2 -= 2;
-          }else if(this.belong_to== "1"){
+          } else if (this.belong_to == "1") {
             compteur2 += pointOeufOther;
-          }else{
+          } else {
             compteur2 += pointOeufQueen;
           }
           document.getElementById("H1bis").innerHTML = "Score 2 = " + compteur2;
@@ -307,7 +257,7 @@
     if (e.key == "Shift") {
       console.log('La touche "Entré" a été pressée');
       if (!eat && nb_oeuf2 < oeufs_max) {
-        appearEgg(x2, y2, belong_to="2");
+        appearEgg(x2, y2, belong_to = "2");
         nb_oeuf2 += 1
       }
     }
@@ -325,59 +275,59 @@
 
 
     percentage = "?"
-    if (parseInt(document.getElementById("pretendant").value) < 11){
+    if (parseInt(document.getElementById("pretendant").value) < 11) {
       switch (parseInt(document.getElementById("pretendant").value)) {
         case 1:
-          percentage =  37.5;
+          percentage = 37.5;
           break;
         case 2:
-          percentage =  25;
+          percentage = 25;
           break;
         case 3:
-          percentage =  20;
+          percentage = 20;
           break;
         case 4:
-          percentage =  18;
+          percentage = 18;
           break;
         case 5:
-          percentage =  16.5;
+          percentage = 16.5;
           break;
         case 6:
-          percentage =  16;
+          percentage = 16;
           break;
         case 7:
-          percentage =  15.5;
+          percentage = 15.5;
           break;
         case 8:
-          percentage =  15;
+          percentage = 15;
           break;
         case 9:
-          percentage =  14.5;
+          percentage = 14.5;
           break;
         case 10:
-          percentage =  14;
+          percentage = 14;
           break;
       }
-    }else{
-      percentage = 14 + 1 - parseFloat(document.getElementById("pretendant").value/10)
+    } else {
+      percentage = 14 + 1 - parseFloat(document.getElementById("pretendant").value / 10)
     }
 
-    if (percentage<12.5){
+    if (percentage < 12.5) {
       percentage = 12.5
     }
 
-    if(percentage == 25){
+    if (percentage == 25) {
       pointOeufOther = 0
       pointOeufQueen = 0
-    }else if (percentage < 25) {
+    } else if (percentage < 25) {
       pointOeufOther = 1
       pointOeufQueen = 0
-    }else if (percentage > 25) {
+    } else if (percentage > 25) {
       pointOeufOther = 0
       pointOeufQueen = 1
     }
 
-    document.getElementById("genetique").innerHTML = percentage.toString() + "%" ;
+    document.getElementById("genetique").innerHTML = percentage.toString() + "%";
 
     clearAll();
     drawBee(x, y, imageBee1);
@@ -513,7 +463,7 @@
 
   intervalDisc = setInterval(deplaceContinu, 20);
 
-  function appearEgg(x, y, belong_to="1") {
+  function appearEgg(x, y, belong_to = "1") {
     tableEgg[n].x = x
     tableEgg[n].y = y
     tableEgg[n].drawEgg(tableEgg[n].x, tableEgg[n].y);
@@ -535,7 +485,7 @@
   }
 
   function EggQueen(e) {
-    appearEgg(xQueen, yQueen, belong_to="Queen");
+    appearEgg(xQueen, yQueen, belong_to = "Queen");
   }
 
 </script>
