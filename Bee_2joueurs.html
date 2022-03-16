@@ -187,9 +187,9 @@
           if(this.belong_to=="1"){
             compteur -= 2;
           }else if (this.belong_to== "2"){
-            compteur += 1;
+            compteur += pointOeufOther;
           }else{
-            compteur -= 1;
+            compteur += pointOeufQueen;
           }
 
           document.getElementById("H1").innerHTML = "Score 1 = " + compteur;
@@ -197,9 +197,9 @@
           if(this.belong_to=="2"){
             compteur2 -= 2;
           }else if(this.belong_to== "1"){
-            compteur2 += 1;
+            compteur2 += pointOeufOther;
           }else{
-            compteur2 -= 1;
+            compteur2 += pointOeufQueen;
           }
           document.getElementById("H1bis").innerHTML = "Score 2 = " + compteur2;
         }
@@ -366,7 +366,16 @@
       percentage = 12.5
     }
 
-
+    if(percentage == 25){
+      pointOeufOther = 0
+      pointOeufQueen = 0
+    }else if (percentage < 25) {
+      pointOeufOther = 1
+      pointOeufQueen = 0
+    }else if (percentage > 25) {
+      pointOeufOther = 0
+      pointOeufQueen = 1
+    }
 
     document.getElementById("genetique").innerHTML = percentage.toString() + "%" ;
 
