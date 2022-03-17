@@ -10,8 +10,6 @@
   <form action="/action_page.php">
     <label for="pretendant">Nombre de prétendant de la reine</label>
     <input type="number" id="pretendant" name="pretendant" min="1" max="100"><br><br>
-    <label for="pretendant">Nombre d'oeufs pour chaque abeille</label>
-    <input type="number" id="nb_egg" name="pretendant" min="3" max="5"><br><br>
     <div>
       <br><br><input type="button" id="button" value="Jouer"><br><br>
     </div>
@@ -91,13 +89,17 @@
   var nb_oe = 0;
   var play = false;
   var btn = document.getElementById("button");
+
   btn.addEventListener('click', Play);
 
   function Play() {
-    if (!play) {
-      play = true;
-      intervalDisc = setInterval(deplaceContinu, 20);
-      setTimeout(Eat, 15000);
+    if (parseInt(document.getElementById("pretendant").value) >= 1) {
+      if (!play) {
+        play = true;
+        intervalDisc = setInterval(deplaceContinu, 20);
+      }
+    } else {
+      alert("Renseigner le nombre de prétendant qu'aura eu la reine dans le passé.")
     }
   }
 
@@ -192,17 +194,17 @@
   var tableEgg = [];
   var bee = Object.create(Bee);
 
-  for (var i = 0; i < oeufs_max; i++) {
+  for (var i = 0; i < 3; i++) {
     tableEgg.push(Object.create(Egg));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
   }
-  for (var i = oeufs_max; i < 2 * oeufs_max; i++) {
+  for (var i = 3; i < 6; i++) {
     tableEgg.push(Object.create(Egg1));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
   }
-  for (var i = 2 * oeufs_max; i < 3 * oeufs_max; i++) {
+  for (var i = 6; i < 9; i++) {
     tableEgg.push(Object.create(Egg2));
     tableEgg[i].x = 30 + Math.floor(740 * Math.random());
     tableEgg[i].y = 50 + Math.floor(440 * Math.random());
@@ -261,7 +263,6 @@
 
 
   function deplaceContinu(e) {
-    oeufs_max = document.getElementById("nb_egg").value;
     percentage = "?"
     if (parseInt(document.getElementById("pretendant").value) < 11) {
       switch (parseInt(document.getElementById("pretendant").value)) {
@@ -335,7 +336,7 @@
         x += 2;
     }
 
-    for (var i = 0; i < 3 * oeufs_max; i++) {
+    for (var i = 0; i < 9; i++) {
 
       var cotedroit = x + 40;
       var cotegauche = x - 40;
