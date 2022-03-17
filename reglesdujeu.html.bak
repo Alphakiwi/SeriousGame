@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<img class="logo" src="Logo.png" alt="logoabeille">
-		<h1 class="titre1">Règles du jeu<h1>
+		<h1>Règles du jeu<h1>
 		<div class="tableau">
 			<p>But : Maximiser ses points en mangeant les œufs les plus éloignés génétiquement et en évitant de manger les autres.<br>
 
