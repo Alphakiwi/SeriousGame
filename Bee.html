@@ -87,7 +87,7 @@
   var n = 0;
   var imageBee = document.getElementById('bee_up');
   var eat = true;
-  var oeufs_max = document.getElementById("nb_egg").value;;
+  var oeufs_max = parseInt(document.getElementById("nb_egg").value)
   var nb_oe = 0;
   var play = false;
   var btn = document.getElementById("button");
@@ -96,9 +96,10 @@
   function Play() {
       if (parseInt(document.getElementById("nb_egg").value) >= 1 && parseInt(document.getElementById("pretendant").value)>=1) {
         if (!play){
+          oeufs_max = parseInt(document.getElementById("nb_egg").value);
           play = true;
           setInterval(deplaceContinu, 20);
-          setTimeout(End, 30000);E
+          setTimeout(End, 30000);
         }
       }else{
         alert("Renseigner le nombre d'oeufs à pondre et de prétendant qu'aura eu la reine dans le passé.")
@@ -269,7 +270,6 @@
 
 
   function deplaceContinu(e) {
-    oeufs_max = document.getElementById("nb_egg").value;
     percentage = "?"
     if (parseInt(document.getElementById("pretendant").value) < 11) {
       switch (parseInt(document.getElementById("pretendant").value)) {
