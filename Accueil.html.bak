@@ -4,15 +4,29 @@
 		<meta charset ="utf-8">
 		<link rel="shortcut icon" href="Logo.png">
 		<link rel="stylesheet" href="doccss.css">
-		<title>Jeu d'abeilles</title>
+		<title>EggHunter</title>
 	<meta name="page d'accueil" content="Accueil Jeu Abeilles"/>
 	</head>
-	<body>
-		<h1>nom projet</h1>
+	<body class="imaage">
+			<img class="logo" src="Logo.png" alt="logoabeille">
+
+		<h1>EggHunter</h1>
 		<div>
-			<input class="boutons" type="button" value="Add to favorites">
-			<input class="boutons" type="button" value="Add to favorites">
-			<input class="boutons" type="button" value="Add to favorites">
+			<a href="histoire.html">
+			<input class="boutons" type="button" value="Histoire">
+			</a>
+		</div>
+		<div>
+			<a href="reglesdujeu.html">
+			<input class="boutons" type="button" value="Règles du jeu">
+			</a>
+		</div>
+		<div>
+			<input class="boutons" type="button" value="Jouer mode Solo">
+		</div>
+		
+		<div>
+			<input class="boutons" type="button" value="Jouer mode Duo">
 		</div>
 	
 	

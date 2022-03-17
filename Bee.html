@@ -96,7 +96,7 @@
     if (parseInt(document.getElementById("pretendant").value) >= 1) {
       if (!play) {
         play = true;
-        intervalDisc = setInterval(deplaceContinu, 20);
+        setInterval(deplaceContinu, 20);
       }
     } else {
       alert("Renseigner le nombre de prétendant qu'aura eu la reine dans le passé.")
